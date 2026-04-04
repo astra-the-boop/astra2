@@ -9,13 +9,15 @@ app = App(
     signing_secret = os.getenv("SLACK_SECRET")
 )
 
+mediaTarget = ["U089924LMK8"]
+
 @app.message("astra2_test")
 def test(message, say):
     say("hi there!")
 
 @app.message("https://youtube.com/watch?v=")
 def youtube(message, say, client):
-    client.chat.postMessage(
+    client.chat_postMessage(
         channel = "C097PNFQK24",
         text = message["text"]
     )
