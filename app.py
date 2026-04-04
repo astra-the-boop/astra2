@@ -9,6 +9,10 @@ app = App(
     signing_secret = os.getenv("SLACK_SECRET")
 )
 
+@app.message("astra2_test")
+def test(message, say):
+    say("hi there!")
+
 @app.message("https://youtube.com/watch?")
 def youtube(message, say, client):
     client.chat.postMessage(
