@@ -27,11 +27,38 @@ def test(message, say, client):
 def youtube(message, say, client):
     # say("implodes")
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
-        client.chat_postMessage(
-            channel = mediaTargetChannel,
-            text = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
+        client.chat_postEmphemeral(
+            channel=message["channel"],
+            user=message["user"],
+            text=message["text"],
+            blocks=[{
+                "type": "action",
+                "block_id": "youtubeApproval",
+                "elements": [{
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Send to #astras-media-spam"},
+                    "style": "primary",
+                    "action_id": "approveYoutube",
+                    "value": f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
 {message["text"]}
-""")
+"""
+                },
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text","text":"Reject"},
+                        "style": "primary",
+                        "action_id": "rejectYoutube",
+                    }]
+            }]
+        )
+
+@app.action("approveYoutube")
+def approveYoutube(ack, body, client):
+    ack()
+    value = body["value"][0]["value"]
+    client.chat_postMessage(
+        channel = mediaTargetChannel,
+        text = value)
     
 if __name__ == "__main__":
     app.start(3000)
