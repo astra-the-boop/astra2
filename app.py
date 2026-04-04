@@ -21,7 +21,7 @@ def test(message, say, client):
         text="test"
     )
 
-@app.message(re.compile(r"youtube\.com/watch"))
+@app.message(re.compile(r"youtube\.com/watch\?v="))
 def youtube(message, say, client):
     say("implodes")
     client.chat_postMessage(
