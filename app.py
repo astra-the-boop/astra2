@@ -29,7 +29,7 @@ def youtube(message, say, client):
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
         client.chat_postMessage(
             channel = mediaTargetChannel,
-            text = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|​>
+            text = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
 {message["text"]}
 """)
     
