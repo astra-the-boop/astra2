@@ -27,12 +27,12 @@ def test(message, say, client):
 def youtube(message, say, client):
     # say("implodes")
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
-        client.chat_postEmphemeral(
+        client.chat_postEphemeral(
             channel=message["channel"],
             user=message["user"],
             text=message["text"],
             blocks=[{
-                "type": "action",
+                "type": "actions",
                 "block_id": "youtubeApproval",
                 "elements": [{
                     "type": "button",
@@ -46,7 +46,7 @@ def youtube(message, say, client):
                     {
                         "type": "button",
                         "text": {"type": "plain_text","text":"Reject"},
-                        "style": "primary",
+                        "style": "danger",
                         "action_id": "rejectYoutube",
                     }]
             }]
@@ -55,7 +55,7 @@ def youtube(message, say, client):
 @app.action("approveYoutube")
 def approveYoutube(ack, body, client):
     ack()
-    value = body["value"][0]["value"]
+    value = body["actions"][0]["value"]
     client.chat_postMessage(
         channel = mediaTargetChannel,
         text = value)
