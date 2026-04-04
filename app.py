@@ -24,7 +24,7 @@ def test(message, say, client):
     )
 
 @app.message(re.compile(r"youtube\.com/watch\?v=|youtu\.be/"))
-def youtube(message, say, client):
+def youtube(message, client):
     # say("implodes")
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
         client.chat_postEphemeral(
@@ -53,12 +53,18 @@ def youtube(message, say, client):
         )
 
 @app.action("approveYoutube")
-def approveYoutube(ack, body, client):
+def approveYoutube(ack, body, client, respond):
     ack()
     value = body["actions"][0]["value"]
     client.chat_postMessage(
         channel = mediaTargetChannel,
         text = value)
-    
+    respond(replace_original=True, delete_original=True)
+
+@app.action("rejectYoutube")
+def rejectYoutube(ack, respond):
+    ack()
+    respond(replace_original=True, delete_original=True)
+
 if __name__ == "__main__":
     app.start(3000)
