@@ -9,7 +9,7 @@ app = App(
     signing_secret = os.getenv("SLACK_SECRET")
 )
 
-@app.message("https://youtube.com/watch?=")
+@app.message("https://youtube.com/watch?")
 def youtube(message, say, client):
     client.chat.postMessage(
         channel = "C097PNFQK24",
