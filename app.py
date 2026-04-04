@@ -9,9 +9,12 @@ app = App(
     signing_secret = os.getenv("SLACK_SECRET")
 )
 
-@app.message("test")
-def blegh(message, say):
-    say(f"test {message["user"]}")
+@app.message("https://youtube.com/watch?=")
+def youtube(message, say, client):
+    client.chat.postMessage(
+        channel = "C097PNFQK24",
+        text = message["text"]
+    )
     
 if __name__ == "__main__":
     app.start(3000)
