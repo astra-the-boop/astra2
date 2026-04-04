@@ -2,6 +2,8 @@ import os
 from slack_bolt import App
 from dotenv import load_dotenv
 
+import re
+
 load_dotenv()
 
 app = App(
@@ -19,8 +21,9 @@ def test(message, say, client):
         text="test"
     )
 
-@app.message("https://youtube.com/watch?v=")
+@app.message(re.compile(r"youtube\.com/watch"))
 def youtube(message, say, client):
+    say("implodes")
     client.chat_postMessage(
         channel = "C097PNFQK24",
         text = message["text"]
