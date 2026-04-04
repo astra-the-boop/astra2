@@ -12,8 +12,12 @@ app = App(
 mediaTarget = ["U089924LMK8"]
 
 @app.message("astra2_test")
-def test(message, say):
+def test(message, say, client):
     say("hi there!")
+    client.chat_postMessage(
+        channel="C097PNFQK24",
+        text="test"
+    )
 
 @app.message("https://youtube.com/watch?v=")
 def youtube(message, say, client):
