@@ -13,7 +13,7 @@ app = App(
 def test(message, say):
     say("hi there!")
 
-@app.message("https://youtube.com/watch?")
+@app.message("https://youtube.com/watch?v=")
 def youtube(message, say, client):
     client.chat.postMessage(
         channel = "C097PNFQK24",
