@@ -11,7 +11,9 @@ app = App(
     signing_secret = os.getenv("SLACK_SECRET")
 )
 
-mediaTarget = ["U089924LMK8"]
+mediaTargetUser = ["U089924LMK8"]
+mediaTargetChannel = "C097PNFQK24"
+mediaTargetFromChannel = ["C08F4R7HVS8"]
 
 @app.message("astra2_test")
 def test(message, say, client):
@@ -23,11 +25,14 @@ def test(message, say, client):
 
 @app.message(re.compile(r"youtube\.com/watch\?v="))
 def youtube(message, say, client):
-    say("implodes")
-    client.chat_postMessage(
-        channel = "C097PNFQK24",
-        text = message["text"]
-    )
+    # say("implodes")
+    if message["user"] in mediaTargetUser and message["channel"]:
+        client.chat_postMessage(
+            channel = mediaTargetChannel,
+            text = f"""<​a|https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}>
+{message["text"]}
+"""
+        )
     
 if __name__ == "__main__":
     app.start(3000)
