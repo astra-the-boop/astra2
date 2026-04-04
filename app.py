@@ -23,16 +23,15 @@ def test(message, say, client):
         text="test"
     )
 
-@app.message(re.compile(r"youtube\.com/watch\?v="))
+@app.message(re.compile(r"youtube\.com/watch\?v=|youtu\.be/"))
 def youtube(message, say, client):
     # say("implodes")
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
         client.chat_postMessage(
             channel = mediaTargetChannel,
-            text = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}>|​a
+            text = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}>|​
 {message["text"]}
-"""
-        )
+""")
     
 if __name__ == "__main__":
     app.start(3000)
