@@ -27,7 +27,7 @@ def test(message, say, client):
 def youtube(message, client):
     # say("implodes")
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
-        remaining = re.sub(r"https?://\S+>", "", message["text"]).strip()
+        remaining = re.sub(r"<https?://\S+>", "", message["text"]).strip()
 
         if remaining:
             formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
