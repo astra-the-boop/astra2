@@ -13,7 +13,7 @@ app = App(
 
 mediaTargetUser = ["U089924LMK8"]
 mediaTargetChannel = "C097PNFQK24"
-mediaTargetFromChannel = ["C08F4R7HVS8", "C098USWAN9K"]
+mediaTargetFromChannel = ["C08F4R7HVS8", "C098USWAN9K", "C0ACZFKM3A4", "C09CGGUUM8C", "C09U89GGZLL"]
 
 @app.message("astra2_test")
 def test(message, say, client):
@@ -38,7 +38,7 @@ def youtube(message, client):
                     "type": "button",
                     "text": {"type": "plain_text", "text": "Send to #astras-media-spam"},
                     "style": "primary",
-                    "action_id": "approveYoutube",
+                    "action_id": "approveMedia",
                     "value": f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
 {message["text"]}
 """
@@ -47,12 +47,12 @@ def youtube(message, client):
                         "type": "button",
                         "text": {"type": "plain_text","text":"Reject"},
                         "style": "danger",
-                        "action_id": "rejectYoutube",
+                        "action_id": "rejectMedia",
                     }]
             }]
         )
 
-@app.action("approveYoutube")
+@app.action("approveMedia")
 def approveYoutube(ack, body, client, respond):
     ack()
     value = body["actions"][0]["value"]
@@ -61,7 +61,7 @@ def approveYoutube(ack, body, client, respond):
         text = value)
     respond(replace_original=True, delete_original=True)
 
-@app.action("rejectYoutube")
+@app.action("rejectMedia")
 def rejectYoutube(ack, respond):
     ack()
     respond(replace_original=True, delete_original=True)
