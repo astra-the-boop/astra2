@@ -78,12 +78,14 @@ def spotify(message, client):
                     "text": {"type": "plain_text","text": "Send to #astras-media-spam"},
                     "style": "primary",
                     "action_id": "approveMedia",
+                    "value": formatted
                 },
                     {
                         "type": "button",
                         "text": {"type": "plain_text","text":"Reject"},
                         "style": "danger",
                         "action_id": "rejectMedia",
+                        "value": formatted
                     }]
             }]
         )
