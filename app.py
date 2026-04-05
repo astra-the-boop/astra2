@@ -31,7 +31,7 @@ def youtube(message, client):
 
         if remaining:
             formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
-{message["text"]}"""
+> {message["text"]}"""
         else:
             formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>"
         client.chat_postEphemeral(
