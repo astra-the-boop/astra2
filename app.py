@@ -27,6 +27,13 @@ def test(message, say, client):
 def youtube(message, client):
     # say("implodes")
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
+        remaining = re.sub(r"https?://\S+>", "", message["text"]).strip()
+
+        if remaining:
+            formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
+{message["text"]}"""
+        else:
+            formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>"
         client.chat_postEphemeral(
             channel=message["channel"],
             user=message["user"],
@@ -39,9 +46,7 @@ def youtube(message, client):
                     "text": {"type": "plain_text", "text": "Send to #astras-media-spam"},
                     "style": "primary",
                     "action_id": "approveMedia",
-                    "value": f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
-{message["text"]}
-"""
+                    "value": formatted
                 },
                     {
                         "type": "button",
