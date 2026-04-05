@@ -58,7 +58,35 @@ def youtube(message, client):
             }]
         )
 
-# @app.message(re.compile(r"youtube\.com/watch\?v=|youtu\.be/"))
+@app.message(re.compile(r"open\.spotify\.com/track/"))
+def spotify(message, client):
+    if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
+        remaining = re.sub(r"<https?://\S+>", "", message["text"]).strip()
+        if remaining:
+            formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:spotify:>
+{'\n'.join(f"> {line}" for line in message["text"].splitlines())}"""
+        else:
+            formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message['ts'].replace(".","")}|:spotify:>"
+        client.chat_postEphemeral(
+            channel=message["channel"],
+            text=message["text"],
+            blocks=[{
+                "type": "actions",
+                "block_id": "spotifyApproval",
+                "elements": [{
+                    "type": "button",
+                    "text": {"type": "plain_text","text": "Send to #astras-media-spam"},
+                    "style": "primary",
+                    "action_id": "approveMedia",
+                },
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text","text":"Reject"},
+                        "style": "danger",
+                        "action_id": "rejectMedia",
+                    }]
+            }]
+        )
 
 @app.action("approveMedia")
 def approveYoutube(ack, body, client, respond):
