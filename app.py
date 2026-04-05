@@ -31,7 +31,8 @@ def youtube(message, client):
 
         if remaining:
             formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>
-> {message["text"]}"""
+{'\n'.join(f"> {line}" for line in message["text"].splitlines())}"""
+           
         else:
             formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:youtube:>"
         client.chat_postEphemeral(
@@ -56,6 +57,8 @@ def youtube(message, client):
                     }]
             }]
         )
+
+# @app.message(re.compile(r"youtube\.com/watch\?v=|youtu\.be/"))
 
 @app.action("approveMedia")
 def approveYoutube(ack, body, client, respond):
