@@ -70,6 +70,7 @@ def spotify(message, client):
         client.chat_postEphemeral(
             channel=message["channel"],
             text=message["text"],
+            user=message["user"],
             blocks=[{
                 "type": "actions",
                 "block_id": "spotifyApproval",
