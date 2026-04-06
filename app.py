@@ -63,10 +63,10 @@ def spotify(message, client):
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
         remaining = re.sub(r"<https?://\S+>", "", message["text"]).strip()
         if remaining:
-            formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:spotify:>
+            formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:spotify_logo:>
 {'\n'.join(f"> {line}" for line in message["text"].splitlines())}"""
         else:
-            formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message['ts'].replace(".","")}|:spotify:>"
+            formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message['ts'].replace(".","")}|:spotify_logo:>"
         client.chat_postEphemeral(
             channel=message["channel"],
             text=message["text"],
