@@ -16,7 +16,21 @@ how to host this yourself:
 ```dotenv
 SLACK_TOKEN=
 SLACK_SECRET=
+
+MEDIA_TARGET_USER=
+MEDIA_TARGET_CHANNEL=
+MEDIA_FROM_CHANNELS=
+
+TIMEZONES=
+REMINDER_CHANNEL=
 ```
+
+**Media forwarding:**
+`MEDIA_TARGET_USER` are the Slack IDs of users who the bot will target forwarding from; list separated by commas (e.g. `MEDIA_TARGET_USER=U123456789,U098765432`)
+`MEDIA_TARGET_CHANNEL` is the Slack ID of the channel which the bot will forward the messages to
+`MEDIA_FROM_CHANNELS` are the Slack IDs of the channels in which the bot will check. The bot must be invited to said channel for this to work. List separated by commas
+
+**Annoying-ass timed reminder thing**
 
 3. go to `app.py` and fill these in with your own things
 ```python
