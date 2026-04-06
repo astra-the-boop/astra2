@@ -15,13 +15,13 @@ mediaTargetUser = ["U089924LMK8"]
 mediaTargetChannel = "C097PNFQK24"
 mediaTargetFromChannel = ["C08F4R7HVS8", "C098USWAN9K", "C0ACZFKM3A4", "C09CGGUUM8C", "C09U89GGZLL"]
 
-@app.message("astra2_test")
-def test(message, say, client):
-    say("hi there!")
-    client.chat_postMessage(
-        channel="C097PNFQK24",
-        text="test"
-    )
+# @app.message("astra2_test")
+# def test(message, say, client):
+#     say("hi there!")
+#     client.chat_postMessage(
+#         channel="C097PNFQK24",
+#         text="test"
+#     )
 
 @app.message(re.compile(r"youtube\.com/watch\?v=|youtu\.be/"))
 def youtube(message, client):
