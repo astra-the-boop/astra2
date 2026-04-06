@@ -36,8 +36,8 @@ scheduler.start()
 
 @app.message(re.compile(r"\.wikipedia\.org/wiki/"))
 def wikipedia(message, client):
-    if message["user"] in mediaTargetUser and message["channel"] in mediaTargetChannel:
-        remaining = re.sub(r"<https?://\S+]", "", message["text"]).strip()
+    if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
+        remaining = re.sub(r"<https?://\S+>", "", message["text"]).strip()
 
         if remaining:
             formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:wikipedia:>
@@ -45,7 +45,7 @@ def wikipedia(message, client):
         else:
             formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message['ts'].replace('.','')}|:wikipedia:>"
 
-        client.chat_postMessage(
+        client.chat_postEphemeral(
             channel=message["channel"],
             user=message["user"],
             text=message["text"],
@@ -54,7 +54,7 @@ def wikipedia(message, client):
                 "block_id": "wikipediaApproval",
                 "elements": [{
                     "type": "button",
-                    "text": {"type":"plain_text","text":"Send to #astras-media-spam"}
+                    "text": {"type":"plain_text","text":"Send to #astras-media-spam"},
                     "style": "primary",
                     "action_id": "approveMedia",
                     "value": formatted
