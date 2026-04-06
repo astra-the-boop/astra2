@@ -10,7 +10,8 @@ load_dotenv()
 mediaTargetUser = os.getenv("MEDIA_TARGET_USER").split(",")
 mediaTargetChannel = os.getenv("MEDIA_TARGET_CHANNEL")
 mediaTargetFromChannel = os.getenv("MEDIA_FROM_CHANNELS").split(",")
-tz = float(os.getenv("TIMEZONE"))
+tz = 7
+print(os.getenv("TIMEZONE"))
 
 app = App(
     token = os.getenv("SLACK_TOKEN"),
