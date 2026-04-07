@@ -23,9 +23,44 @@ scheduler = BackgroundScheduler(timezone=timzeone)
 
 @scheduler.scheduled_job("cron", hour=20, minute=0) #8pm
 def drugsMorning():
-    pass
+    global reminder_ts
+    res = app.client.chat_postMessage(
+        channel="C08F4R7HVS8",
+        text="<!subteam^S0A31QEU15W> FORCE ASTRA TO TAKE DRUGS!!!!! <@U089924LMK8> TAKE DRUGS!!!\nI will continue to show the 'poke astra' button until she takes her drugs. Please annoy her until she takes them!",
+        blocks=[{
+            "type":"actions",
+            "block_id": "reminderPing",
+            "elements":[{
+                "type": "button",
+                "text": {"type": "plain_text", "text": "poke astra"},
+                "style": "primary",
+                "action_id": "pokeAstra"
+            }]
 
+        }]
+    )
+    reminder_ts = res["ts"]
+
+    app.client.chat_postEphemeral(
+        channel="C08F4R7HVS8",
+        user="U089924LMK8",
+        text="Remember to take them!",
+        blocks=[{
+            "type": "actions",
+            "block_id": "reminderCheck",
+            "elements":[{
+                "type": "button",
+                "action_id": "reminderCheck",
+                "text": {"type": "plain_text", "text": "I took them!"},
+                "style": "danger"
+            }]
+
+        }]
+    )
 scheduler.start()
+
+@app.action("pokeAstra")
+
 
 # @app.message("astra2_test")
 # def test(message, say, client):
