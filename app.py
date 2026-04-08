@@ -171,7 +171,7 @@ def youtube(message, client):
 def spotify(message, client):
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
         remaining = re.sub(r"<https?://\S+>", "", message["text"]).strip()
-        if remaining:
+        if remaining or app.client.conversations_info(channel=message["channel"])["channel"].get("is_private"):
             formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:spotify_logo:>
 {'\n'.join(f"> {line}" for line in message["text"].splitlines())}"""
         else:
