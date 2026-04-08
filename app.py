@@ -204,11 +204,9 @@ def spotify(message, client):
 def approveYoutube(ack, body, client, respond):
     ack()
     value = body["actions"][0]["value"]
-    urls = re.findall(r"<(https?://[^|>]+)[|>]", value)
-    rawUrls = urls[-1] if urls else ""
     client.chat_postMessage(
         channel = mediaTargetChannel,
-        text = f"{value}\n{rawUrls}",
+        text = f"{value}",
         unfurl_links = True,
         unfurl_media = True,)
     respond(replace_original=True, delete_original=True)
