@@ -206,7 +206,7 @@ def approveYoutube(ack, body, client, respond):
     value = body["actions"][0]["value"]
     client.chat_postMessage(
         channel = mediaTargetChannel,
-        text = f"{value}",
+        text = f"<!subteam^S0AR5M3UVV1>\n{value}",
         unfurl_links = True,
         unfurl_media = True,)
     respond(replace_original=True, delete_original=True)
