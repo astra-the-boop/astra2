@@ -206,7 +206,9 @@ def approveYoutube(ack, body, client, respond):
     value = body["actions"][0]["value"]
     client.chat_postMessage(
         channel = mediaTargetChannel,
-        text = value)
+        text = value,
+        unfurl_links = True,
+        unfurl_media = True,)
     respond(replace_original=True, delete_original=True)
 
 @app.action("rejectMedia")
