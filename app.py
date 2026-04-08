@@ -21,8 +21,15 @@ app = App(
 timzeone = timezone(timedelta(hours=tz))
 scheduler = BackgroundScheduler(timezone=timzeone)
 
-@scheduler.scheduled_job("cron", hour=20, minute=0) #7am
+@scheduler.scheduled_job("cron", hour=20, minute=0) #8pm
+def drugsEvening():
+    _drugsReminder()
+
+@scheduler.scheduled_job("cron", hour=7, minute=0)
 def drugsMorning():
+    _drugsReminder()
+
+def _drugsReminder():
     global reminderTs
     res = app.client.chat_postMessage(
         channel="C08F4R7HVS8",
@@ -68,6 +75,7 @@ def drugsMorning():
 
         }]
     )
+
 scheduler.start()
 
 @app.action("pokeAstra")
