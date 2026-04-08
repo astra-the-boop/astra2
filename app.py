@@ -21,13 +21,19 @@ app = App(
 timzeone = timezone(timedelta(hours=tz))
 scheduler = BackgroundScheduler(timezone=timzeone)
 
-@scheduler.scheduled_job("cron", hour=7, minute=0) #7am
+@scheduler.scheduled_job("cron", hour=20, minute=0) #7am
 def drugsMorning():
     global reminderTs
     res = app.client.chat_postMessage(
         channel="C08F4R7HVS8",
-        text="<!subteam^S0A31QEU15W> FORCE ASTRA TO TAKE DRUGS!!!!! <@U089924LMK8> TAKE DRUGS!!!\nI will continue to show the 'poke astra' button until she takes her drugs. Please annoy her until she takes them!",
-        blocks=[{
+        blocks=[
+            {
+                "type": "section",
+                "text": {
+                    "text":"<!subteam^S0A31QEU15W> FORCE ASTRA TO TAKE DRUGS!!!!! <@U089924LMK8> TAKE DRUGS!!!\nI will continue to show the 'poke astra' button until she takes her drugs. Please annoy her until she takes them!",
+                    "type": "mrkdwn"}
+            },
+            {
             "type":"actions",
             "block_id": "reminderPing",
             "elements":[{
@@ -36,7 +42,6 @@ def drugsMorning():
                 "style": "primary",
                 "action_id": "pokeAstra"
             }]
-
         }]
     )
     reminderTs = res["ts"]
@@ -44,8 +49,14 @@ def drugsMorning():
     app.client.chat_postEphemeral(
         channel="C08F4R7HVS8",
         user="U089924LMK8",
-        text="Remember to take them!",
         blocks=[{
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Remember to take them!"
+            }
+
+        },{
             "type": "actions",
             "block_id": "reminderCheck",
             "elements":[{
@@ -64,11 +75,11 @@ def pokeAstra(ack, body, client):
     ack()
     client.chat_postMessage(
         channel="C08F4R7HVS8",
-        text=f"<@{body["user"]["id"]} poked <@U089924LMK8>!! TAKE YOUR DRUGS!"
+        text=f"<@{body["user"]["id"]}> poked <@U089924LMK8>!! TAKE YOUR DRUGS!"
     )
 
 
-@app.action("tookDrugs")
+@app.action("reminderCheck")
 def tookDrugs(ack, respond, client):
     ack()
     client.chat_update(
