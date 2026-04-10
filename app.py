@@ -11,7 +11,6 @@ mediaTargetUser = os.getenv("MEDIA_TARGET_USER").split(",")
 mediaTargetChannel = os.getenv("MEDIA_TARGET_CHANNEL")
 mediaTargetFromChannel = os.getenv("MEDIA_FROM_CHANNELS").split(",")
 tz = 7
-print(os.getenv("TIMEZONE"))
 
 app = App(
     token = os.getenv("SLACK_TOKEN"),
@@ -95,6 +94,10 @@ def tookDrugs(ack, respond, client):
         ts=reminderTs,
         text="astra took her drugs!",
         blocks=[]
+    )
+    client.chat_postMessage(
+        channel="C08F4R7HVS8",
+        text="astra took her drugs! yall can stop now",
     )
     respond(text="yum", replace_original=True)
 
