@@ -136,7 +136,7 @@ def reddit(message, client):
                 },
                     {
                         "type": "button",
-                        "text": {"type":"plain_text", "text": "Send to #astras-media-spam"},
+                        "text": {"type":"plain_text", "text": "reject"},
                         "style":"danger",
                         "action_id": "rejectMedia",
                     }]
