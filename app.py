@@ -109,7 +109,7 @@ def tookDrugs(ack, respond, client):
 #         text="test"
 #     )
 
-@app.message(re.compile(r".*reddit\.com/r/[^/]+/comments"))
+@app.message(re.compile(r"reddit\.com/r/.*/comments/"))
 def reddit(message, client):
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
         remaining = re.sub(r"<https?://\S+>", "", message["text"]).strip()
