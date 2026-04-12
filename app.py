@@ -109,6 +109,41 @@ def tookDrugs(ack, respond, client):
 #         text="test"
 #     )
 
+@app.message(re.compile(r".*reddit\.com/r/[^/]+/comments"))
+def reddit(message, client):
+    if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
+        remaining = re.sub(r"<https?://\S+>", "", message["text"]).strip()
+
+        if remaining or app.client.conversations_open(channel=message["channel"])["channel"]:
+            formatted = f"""<https://hackclub.slack.com/archives/{message['channel']}/p{message['ts'].replace(".","")}|:reddit:>
+{'\n'.join(f"> {line}" for line in message["text"].splitlines())}"""
+        else:
+            formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:reddit:>"
+
+        client.chat_postEphemeral(
+            channel = message["channel"],
+            user=message["user"],
+            text = message["text"],
+            blocks=[{
+                "type": "actions",
+                "block_id": "redditApproval",
+                "elements":[{
+                    "type":"button",
+                    "text": {"type": "plain_text", "text": "Send to #astras-media-spam"},
+                    "style":"primary",
+                    "action_id": "approveMedia",
+                    "value": formatted
+                },
+                    {
+                        "type": "button",
+                        "text": {"type":"plain_text", "text": "Send to #astras-media-spam"},
+                        "style":"danger",
+                        "action_id": "rejectMedia",
+                    }]
+            }]
+        )
+
+
 @app.message(re.compile(r"\.wikipedia\.org/wiki/"))
 def wikipedia(message, client):
     if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
