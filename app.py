@@ -178,6 +178,41 @@ def wikipedia(message, client):
         )
 
 
+@app.message(re.compile(r"x\.com/.*/status/|twitter\.com/.*/status/"))
+def twitter(message, client):
+    if message["user"] in mediaTargetUser and message["channel"] in mediaTargetFromChannel:
+        remaining = re.sub(r"<https?://\S+>", "", message["text"]).strip()
+
+        if remaining or app.client.conversations_info(channel=message["channel"])["channel"].get("is_private"):
+            formatted = f"""<https://hackclub.slack.com/archives/{message["channel"]}/p{message["ts"].replace(".","")}|:twitter:>
+{'\n'.join(f"> {line}" for line in message["text"].splitlines())}"""
+
+        else:
+            formatted = f"<https://hackclub.slack.com/archives/{message["channel"]}/p{message['ts'].replace('.','')}|:twitter:>"
+
+        client.chat_postEphemeral(
+            channel=message["channel"],
+            user=message["user"],
+            text=message["text"],
+            blocks=[{
+                "type": "actions",
+                "block_id": "twitterApproval",
+                "elements": [{
+                    "type": "button",
+                    "text": {"type": "plain_text","text": "Send to #astras-media-spam"},
+                    "style": "primary",
+                    "action_id": "approveMedia",
+                    "value": formatted
+                },
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "reject"},
+                        "style": "danger",
+                        "action_id": "rejectMedia"
+                    }]
+            }]
+        )
+
 @app.message(re.compile(r"youtube\.com/watch\?v=|youtu\.be/"))
 def youtube(message, client):
     # say("implodes")
