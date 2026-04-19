@@ -31,6 +31,7 @@ REMINDER_CHANNEL=
 `MEDIA_FROM_CHANNELS` are the Slack IDs of the channels in which the bot will check. The bot must be invited to said channel for this to work. List separated by commas
 
 **Annoying-ass timed reminder thing**
+`REMINDER_CHANNEL` is the channel where you'll be reminded in.
 
 3. go to `app.py` and fill these in with your own things
 ```python
