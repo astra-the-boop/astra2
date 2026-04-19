@@ -10,6 +10,7 @@ load_dotenv()
 mediaTargetUser = os.getenv("MEDIA_TARGET_USER").split(",")
 mediaTargetChannel = os.getenv("MEDIA_TARGET_CHANNEL")
 mediaTargetFromChannel = os.getenv("MEDIA_FROM_CHANNELS").split(",")
+reminderChannel = os.getenv("REMINDER_CHANNEL")
 tz = 7
 
 app = App(
@@ -31,7 +32,7 @@ def drugsMorning():
 def _drugsReminder():
     global reminderTs
     res = app.client.chat_postMessage(
-        channel="C08F4R7HVS8",
+        channel=reminderChannel,
         blocks=[
             {
                 "type": "section",
@@ -53,7 +54,7 @@ def _drugsReminder():
     reminderTs = res["ts"]
 
     app.client.chat_postEphemeral(
-        channel="C08F4R7HVS8",
+        channel=reminderChannel,
         user="U089924LMK8",
         blocks=[{
             "type": "section",
@@ -81,7 +82,7 @@ scheduler.start()
 def pokeAstra(ack, body, client):
     ack()
     client.chat_postMessage(
-        channel="C08F4R7HVS8",
+        channel=reminderChannel,
         text=f"<@{body["user"]["id"]}> poked <@U089924LMK8>!! TAKE YOUR DRUGS!"
     )
 
@@ -90,13 +91,13 @@ def pokeAstra(ack, body, client):
 def tookDrugs(ack, respond, client):
     ack()
     client.chat_update(
-        channel="C08F4R7HVS8",
+        channel=reminderChannel,
         ts=reminderTs,
         text="astra took her drugs!",
         blocks=[]
     )
     client.chat_postMessage(
-        channel="C08F4R7HVS8",
+        channel=reminderChannel,
         text="astra took her drugs! yall can stop now",
     )
     respond(text="yum", replace_original=True)
