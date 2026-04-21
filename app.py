@@ -311,7 +311,7 @@ def joinT2(ack, body, client, respond):
 
         client.chat_postMessage(
             channel = channelId,
-            text=f"<@{body["user"]["id"]}> would like to join <#C098USWAN9K>",
+            text=f"<@{body["user_id"]}> would like to join <#C098USWAN9K>",
             blocks = [{
                 "type": "actions",
                 "block_id": "joinT2",
