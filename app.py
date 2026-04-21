@@ -325,7 +325,6 @@ def joinT2(ack, body, client, respond):
                     {
                         "type": "button",
                         "text": {"type": "plain_text","text": "ignore"},
-                        "style": "default",
                         "action_id": "ignoreT2",
                     }]
             }]
