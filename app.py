@@ -302,7 +302,7 @@ def rejectYoutube(ack, respond):
 def joinT2(ack, body, client):
     ack()
 
-    res = app.client.conversations_open(users="U089924LMK8")
+    res = client.conversations_open(users="U089924LMK8")
     channelId = res["channel"]["id"]
 
     app.client.chat_postMessage(
