@@ -320,7 +320,7 @@ def joinT2(ack, body, client, respond):
                     "text": {"type": "plain_text","text": "Let them in"},
                     "style": "primary",
                     "action_id": "allowT2",
-                    "value": body["user"]["id"]
+                    "value": body["user_id"]
                 },
                     {
                         "type": "button",
