@@ -299,33 +299,34 @@ def rejectYoutube(ack, respond):
     respond(replace_original=True, delete_original=True)
 
 @app.command("/astra-t2")
-def joinT2(ack, body, client):
+def joinT2(ack, body, client, respond):
     ack()
+    respond("test")
 
-    res = client.conversations_open(users="U089924LMK8")
-    channelId = res["channel"]["id"]
-
-    app.client.chat_postMessage(
-        channel = channelId,
-        text=f"<@{body["user"]["id"]}> would like to join <#C098USWAN9K>",
-        blocks = [{
-            "type": "actions",
-            "block_id": "joinT2",
-            "elements": [{
-                "type": "button",
-                "text": {"type": "plain_text","text": "Let them in"},
-                "style": "primary",
-                "action_id": "allowT2",
-                "value": body["user"]["id"]
-            },
-                {
-                    "type": "button",
-                    "text": {"type": "plain_text","text": "ignore"},
-                    "style": "default",
-                    "action_id": "ignoreT2",
-                }]
-        }]
-    )
+    # res = client.conversations_open(users="U089924LMK8")
+    # channelId = res["channel"]["id"]
+    #
+    # app.client.chat_postMessage(
+    #     channel = channelId,
+    #     text=f"<@{body["user"]["id"]}> would like to join <#C098USWAN9K>",
+    #     blocks = [{
+    #         "type": "actions",
+    #         "block_id": "joinT2",
+    #         "elements": [{
+    #             "type": "button",
+    #             "text": {"type": "plain_text","text": "Let them in"},
+    #             "style": "primary",
+    #             "action_id": "allowT2",
+    #             "value": body["user"]["id"]
+    #         },
+    #             {
+    #                 "type": "button",
+    #                 "text": {"type": "plain_text","text": "ignore"},
+    #                 "style": "default",
+    #                 "action_id": "ignoreT2",
+    #             }]
+    #     }]
+    # )
 
 @app.action("allowT2")
 def allowT2(ack, body, client):
