@@ -315,7 +315,15 @@ def joinT2(ack, body, client, respond):
             blocks = [{
                 "type": "actions",
                 "block_id": "joinT2",
-                "elements": [{
+                "elements": [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": f"<@{body["user_id"]}> would like to join <#C098USWAN9K>"
+                        }
+                    },
+                    {
                     "type": "button",
                     "text": {"type": "plain_text","text": "Let them in"},
                     "style": "primary",
