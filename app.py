@@ -312,37 +312,78 @@ def joinT2(ack, body, client, respond):
         client.chat_postMessage(
             channel = channelId,
             text=f"<@{body["user_id"]}> would like to join <#C098USWAN9K>",
-            blocks = [{
+            blocks = [
+                {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"<@{body["user_id"]}> would like to join <#C098USWAN9K>"
+                }
+                },
+                {
                 "type": "actions",
                 "block_id": "joinT2",
                 "elements": [
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": f"<@{body["user_id"]}> would like to join <#C098USWAN9K>"
-                        }
+                        {
+                        "type": "button",
+                        "text": {"type": "plain_text","text": "Let them in"},
+                        "style": "primary",
+                        "action_id": "allow",
+                        "value": f"{body["user_id"]},C098USWAN9K"
                     },
-                    {
-                    "type": "button",
-                    "text": {"type": "plain_text","text": "Let them in"},
-                    "style": "primary",
-                    "action_id": "allowT2",
-                    "value": body["user_id"]
-                },
                     {
                         "type": "button",
                         "text": {"type": "plain_text","text": "ignore"},
-                        "action_id": "ignoreT2",
-                    }]
+                        "action_id": "ignoreInvite",
+                    }
+                ]
             }]
         )
     except Exception as err:
         respond(f"Failed:\n{err}")
 
-@app.action("allowT2")
-def allowT2(ack, body, client):
-    pass
+@app.action("allow")
+def allow(ack, body, client):
+    ack()
+    id, channel = body["actions"][0]["value"].split(",")
+
+    client.conversations_invite(
+        channel = channel,
+        users=id
+    )
+
+    client.chat_update(
+        channel = body["container"]["channel_id"],
+        ts = body["container"]["message_ts"],
+        text = f"i added <@{id}> to <#{channel}>!",
+        blocks=[{
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": f"i added <@{id}> to <#{channel}>!"
+            }
+        },
+            {
+                "type": "actions",
+                "block_id": "undoInvite",
+                "style": "danger",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Undo invite"
+                },
+                "value": f"{id},{channel}"
+            }]
+    )
+
+@app.action("ignoreInvite")
+def ignoreInvite(ack, body, client):
+    ack()
+
+@app.action("undoInvite")
+def undoInvite(ack, body, client):
+    ack()
+
+
 
 if __name__ == "__main__":
     app.start(3000)
