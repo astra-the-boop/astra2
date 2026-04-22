@@ -377,6 +377,11 @@ def allow(ack, body, client):
 
 @app.action("ignoreInvite")
 def ignoreInvite(ack, body, client):
+    client.chat_update(
+        channel = body["container"]["channel_id"],
+        ts = body["container"]["message_ts"],
+        text = "Ignored invite request"
+    )
     ack()
 
 @app.action("undoInvite")
