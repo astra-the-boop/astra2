@@ -301,7 +301,7 @@ def rejectYoutube(ack, respond):
 @app.command("/astra-t2")
 def joinT2(ack, body, client, respond):
     ack()
-    reason = f"`{body["text"].strip()}`" or "_No reason provided._"
+    reason = f"`{body["text"].strip()}`" if body["text"].strip() else "_No reason provided._"
     try:
         res = client.conversations_open(users="U089924LMK8")
         channelId = res["channel"]["id"]
@@ -314,7 +314,7 @@ def joinT2(ack, body, client, respond):
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f"<@{body["user_id"]}> would like to join <#C098USWAN9K>\n**Reason:** {reason}"
+                    "text": f"<@{body["user_id"]}> would like to join <#C098USWAN9K>\n>*Reason:* {reason}"
                 }
                 },
                 {
@@ -342,7 +342,7 @@ def joinT2(ack, body, client, respond):
 @app.command("/astra-tπ")
 def joinTπ(ack, body, client, respond):
     ack()
-    reason = f"`{body["text"].strip()}`" or "_No reason provided._"
+    reason = f"`{body["text"].strip()}`" if body["text"] else "_No reason provided._"
 
     try:
         res = client.conversations_open(users="U089924LMK8")
@@ -355,7 +355,7 @@ def joinTπ(ack, body, client, respond):
                 "type": "section",
                 "text":{
                     "type": "mrkdwn",
-                    "text": f"<@{body["user_id"]}> would like to join <#C09U89GGZLL>\n>**Reason:** {reason}",
+                    "text": f"<@{body["user_id"]}> would like to join <#C09U89GGZLL>\n>*Reason:* {reason}",
                 }
             },
                 {
