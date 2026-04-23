@@ -387,6 +387,17 @@ def ignoreInvite(ack, body, client):
 @app.action("undoInvite")
 def undoInvite(ack, body, client):
     ack()
+    id, channel = body["actions"][0]["value"].split(",")
+    client.conversations_kick(
+        channel=channel,
+        user=id
+    )
+
+    client.chat_update(
+        channel=body["container"]["channel_id"],
+        ts = body["container"]["message_ts"],
+        text = f"Kicked <@{id}> from <#{channel}>!",
+    )
 
 
 
