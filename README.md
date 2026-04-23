@@ -4,7 +4,9 @@
 
 hi! i'm astra, the creator of astra2. astra2 is my bot, it does bot stuff; here's a neat list of features:
 
-- asks and forwards any youtube and spotify link i send to another bulletin like channel
+- asks and forwards any youtube, spotify, reddit, twitter, and wikipedia link i send to another bulletin like channel
+- reminders for taking drugs
+- channel join requests
 
 ---
 
