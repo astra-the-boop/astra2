@@ -366,12 +366,15 @@ def allow(ack, body, client):
             {
                 "type": "actions",
                 "block_id": "undoInvite",
-                "style": "danger",
-                "text": {
-                    "type": "plain_text",
-                    "text": "Undo invite"
-                },
-                "value": f"{id},{channel}"
+                "elements": [{
+                    "style": "danger",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Undo invite"
+                        },
+                    "value": f"{id},{channel}"
+                }]
+
             }]
     )
 
