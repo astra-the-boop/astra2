@@ -301,14 +301,10 @@ def rejectYoutube(ack, respond):
 @app.command("/astra-t2")
 def joinT2(ack, body, client, respond):
     ack()
-    respond("test")
-
     try:
-        respond("success")
         res = client.conversations_open(users="U089924LMK8")
         channelId = res["channel"]["id"]
-
-
+        respond("Sending request!")
         client.chat_postMessage(
             channel = channelId,
             text=f"<@{body["user_id"]}> would like to join <#C098USWAN9K>",
@@ -338,6 +334,44 @@ def joinT2(ack, body, client, respond):
                     }
                 ]
             }]
+        )
+    except Exception as err:
+        respond(f"Failed:\n{err}")
+
+@app.command("/astra-tpi")
+def joinTπ(ack, body, client, respond):
+    ack()
+    try:
+        res = client.conversations_open(users="U089924LMK8")
+        channelId = res["channel"]["id"]
+        respond("Sending request!")
+        client.chat_postMessage(
+            channel = channelId,
+            text = f"<@{body["user_id"]}> would like to join <#C09U89GGZLL>",
+            blocks = [{
+                "type": "section",
+                "text":{
+                    "type": "mrkdwn",
+                    "text": f"<@{body["user_id"]} would like to join <#C09U89GGZLL>",
+                }
+            },
+                {
+                    "type": "actions",
+                    "block_id": "joinTπ",
+                    "elements": [{
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "Let them in"},
+                        "style": "primary",
+                        "action_id": "allow",
+                        "value": f"{body["user_id"]},C09U89GGZLL"
+                    },
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text","text": "ignore"},
+                        "action_id": "ignoreInvite",
+                    }]
+                }
+            ]
         )
     except Exception as err:
         respond(f"Failed:\n{err}")
