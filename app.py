@@ -338,7 +338,7 @@ def joinT2(ack, body, client, respond):
     except Exception as err:
         respond(f"Failed:\n{err}")
 
-@app.command("/astra-tpi")
+@app.command("/astra-tπ")
 def joinTπ(ack, body, client, respond):
     ack()
     try:
