@@ -367,6 +367,7 @@ def allow(ack, body, client):
                 "type": "actions",
                 "block_id": "undoInvite",
                 "elements": [{
+                    "type": "button",
                     "style": "danger",
                     "text": {
                         "type": "plain_text",
