@@ -352,7 +352,7 @@ def joinTπ(ack, body, client, respond):
                 "type": "section",
                 "text":{
                     "type": "mrkdwn",
-                    "text": f"<@{body["user_id"]} would like to join <#C09U89GGZLL>",
+                    "text": f"<@{body["user_id"]}> would like to join <#C09U89GGZLL>",
                 }
             },
                 {
