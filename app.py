@@ -407,6 +407,7 @@ def allow(ack, body, client):
                         "type": "plain_text",
                         "text": "Undo invite"
                         },
+                    "action_id": "undoInvite",
                     "value": f"{id},{channel}"
                 }]
 
