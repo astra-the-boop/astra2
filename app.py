@@ -2,7 +2,7 @@ import os
 from slack_bolt import App
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import timezone, timedelta
+from datetime import timezone, timedelta, datetime
 import re
 
 load_dotenv()
@@ -12,6 +12,9 @@ mediaTargetChannel = os.getenv("MEDIA_TARGET_CHANNEL")
 mediaTargetFromChannel = os.getenv("MEDIA_FROM_CHANNELS").split(",")
 reminderChannel = os.getenv("REMINDER_CHANNEL")
 tz = 7
+
+reminderTs = ""
+takenDrugs = False
 
 app = App(
     token = os.getenv("SLACK_TOKEN"),
@@ -30,7 +33,10 @@ def drugsMorning():
     _drugsReminder()
 
 def _drugsReminder():
-    global reminderTs
+    global reminderTs, takenDrugs
+
+    takenDrugs = False
+
     res = app.client.chat_postMessage(
         channel=reminderChannel,
         blocks=[
@@ -52,6 +58,12 @@ def _drugsReminder():
         }]
     )
     reminderTs = res["ts"]
+
+    scheduler.add_job(
+        expireReminder,
+        "date",
+        run_date=datetime.now(timzeone) + timedelta(hours=10)
+    )
 
     app.client.chat_postEphemeral(
         channel=reminderChannel,
@@ -78,6 +90,16 @@ def _drugsReminder():
 
 scheduler.start()
 
+def expireReminder():
+    global takenDrugs, reminderTs
+    if not takenDrugs and reminderTs:
+        app.client.chat_update(
+            channel=reminderChannel,
+            ts=reminderTs,
+            text="this is expired! make sure that astra takes her drugs next time around..",
+            blocks=[]
+        )
+
 @app.action("pokeAstra")
 def pokeAstra(ack, body, client):
     ack()
@@ -89,7 +111,11 @@ def pokeAstra(ack, body, client):
 
 @app.action("reminderCheck")
 def tookDrugs(ack, respond, client):
+    global takenDrugs
+
     ack()
+    takenDrugs = True
+
     client.chat_update(
         channel=reminderChannel,
         ts=reminderTs,
