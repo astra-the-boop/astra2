@@ -111,7 +111,7 @@ def pokeAstra(ack, body, client):
 
 @app.action("reminderCheck")
 def tookDrugs(ack, respond, client):
-    global takenDrugs
+    global takenDrugs, reminderTs
 
     ack()
     takenDrugs = True
