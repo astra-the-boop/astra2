@@ -128,13 +128,30 @@ def tookDrugs(ack, respond, client):
     )
     respond(text="yum", replace_original=True)
 
-# @app.message("astra2_test")
-# def test(message, say, client):
-#     say("hi there!")
-#     client.chat_postMessage(
-#         channel="C097PNFQK24",
-#         text="test"
-#     )
+@app.command("/drug-taken")
+def manualDrugTaken(ack, body, client, respond):
+    global takenDrugs
+
+    ack()
+
+    if not takenDrugs and body["user"] == "U089924LMK8":
+        takenDrugs = True
+
+        client.chat_update(
+            channel=reminderChannel,
+            ts=reminderTs,
+            text="astra took her drugs!",
+            blocks=[]
+        )
+
+        client.chat_postMessage(
+            channel=reminderChannel,
+            text="astra took her drugs! yall can stop now",
+        )
+    elif takenDrugs:
+        respond("you've already taken your drugs silly")
+    else:
+        respond("grr piss off you aint astra")
 
 @app.message(re.compile(r"reddit\.com/r/.*/comments/"))
 def reddit(message, client):
@@ -368,7 +385,7 @@ def joinT2(ack, body, client, respond):
 @app.command("/astra-tπ")
 def joinTπ(ack, body, client, respond):
     ack()
-    reason = f"`{body["text"].strip()}`" if body["text"] else "_No reason provided._"
+    reason = f"`{body["text"].strip()}`" if body["text"].strip() else "_No reason provided._"
 
     try:
         res = client.conversations_open(users="U089924LMK8")
@@ -466,8 +483,6 @@ def undoInvite(ack, body, client):
         ts = body["container"]["message_ts"],
         text = f"Kicked <@{id}> from <#{channel}>!",
     )
-
-
 
 if __name__ == "__main__":
     app.start(3000)
