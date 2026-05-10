@@ -134,7 +134,7 @@ def manualDrugTaken(ack, body, client, respond):
 
     ack()
 
-    if not takenDrugs and body["user"] == "U089924LMK8":
+    if not takenDrugs and body["user_id"] == "U089924LMK8":
         takenDrugs = True
 
         client.chat_update(
