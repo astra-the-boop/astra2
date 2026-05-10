@@ -350,7 +350,7 @@ def joinT2(ack, body, client, respond):
     ack()
     reason = f"`{body["text"].strip()}`" if body["text"].strip() else "_No reason provided._"
     try:
-        if userInChannel(client, body["user_id"], "C098USWAN9K"):
+        if not userInChannel(client, body["user_id"], "C098USWAN9K"):
             res = client.conversations_open(users="U089924LMK8")
             channelId = res["channel"]["id"]
             respond("Sending request!")
@@ -395,7 +395,7 @@ def joinTπ(ack, body, client, respond):
     reason = f"`{body["text"].strip()}`" if body["text"].strip() else "_No reason provided._"
 
     try:
-        if userInChannel(client, body["user_id"], "C09U89GGZLL"):
+        if not userInChannel(client, body["user_id"], "C09U89GGZLL"):
             res = client.conversations_open(users="U089924LMK8")
             channelId = res["channel"]["id"]
             respond("Sending request!")
