@@ -24,6 +24,10 @@ app = App(
 timzeone = timezone(timedelta(hours=tz))
 scheduler = BackgroundScheduler(timezone=timzeone)
 
+def userInChannel(client, user, channel):
+    res = client.conversations_members(channel=channel)
+    return user in res["members"]
+
 @scheduler.scheduled_job("cron", hour=20, minute=0) #8pm
 def drugsEvening():
     _drugsReminder()
@@ -346,39 +350,42 @@ def joinT2(ack, body, client, respond):
     ack()
     reason = f"`{body["text"].strip()}`" if body["text"].strip() else "_No reason provided._"
     try:
-        res = client.conversations_open(users="U089924LMK8")
-        channelId = res["channel"]["id"]
-        respond("Sending request!")
-        client.chat_postMessage(
-            channel = channelId,
-            text=f"<@{body["user_id"]}> would like to join <#C098USWAN9K>",
-            blocks = [
-                {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f"<@{body["user_id"]}> would like to join <#C098USWAN9K>\n>*Reason:* {reason}"
-                }
-                },
-                {
-                "type": "actions",
-                "block_id": "joinT2",
-                "elements": [
-                        {
-                        "type": "button",
-                        "text": {"type": "plain_text","text": "Let them in"},
-                        "style": "primary",
-                        "action_id": "allow",
-                        "value": f"{body["user_id"]},C098USWAN9K"
+        if userInChannel(client, body["user_id"], "C098USWAN9K"):
+            res = client.conversations_open(users="U089924LMK8")
+            channelId = res["channel"]["id"]
+            respond("Sending request!")
+            client.chat_postMessage(
+                channel = channelId,
+                text=f"<@{body["user_id"]}> would like to join <#C098USWAN9K>",
+                blocks = [
+                    {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": f"<@{body["user_id"]}> would like to join <#C098USWAN9K>\n>*Reason:* {reason}"
+                    }
                     },
                     {
-                        "type": "button",
-                        "text": {"type": "plain_text","text": "ignore"},
-                        "action_id": "ignoreInvite",
-                    }
-                ]
-            }]
-        )
+                    "type": "actions",
+                    "block_id": "joinT2",
+                    "elements": [
+                            {
+                            "type": "button",
+                            "text": {"type": "plain_text","text": "Let them in"},
+                            "style": "primary",
+                            "action_id": "allow",
+                            "value": f"{body["user_id"]},C098USWAN9K"
+                        },
+                        {
+                            "type": "button",
+                            "text": {"type": "plain_text","text": "ignore"},
+                            "action_id": "ignoreInvite",
+                        }
+                    ]
+                }]
+            )
+        else:
+            respond("you're already in <#C098USWAN9K> (astra's t2 channel) silly :bleh:")
     except Exception as err:
         respond(f"Failed:\n{err}")
 
@@ -388,37 +395,40 @@ def joinTπ(ack, body, client, respond):
     reason = f"`{body["text"].strip()}`" if body["text"].strip() else "_No reason provided._"
 
     try:
-        res = client.conversations_open(users="U089924LMK8")
-        channelId = res["channel"]["id"]
-        respond("Sending request!")
-        client.chat_postMessage(
-            channel = channelId,
-            text = f"<@{body["user_id"]}> would like to join <#C09U89GGZLL>",
-            blocks = [{
-                "type": "section",
-                "text":{
-                    "type": "mrkdwn",
-                    "text": f"<@{body["user_id"]}> would like to join <#C09U89GGZLL>\n>*Reason:* {reason}",
-                }
-            },
-                {
-                    "type": "actions",
-                    "block_id": "joinTπ",
-                    "elements": [{
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": "Let them in"},
-                        "style": "primary",
-                        "action_id": "allow",
-                        "value": f"{body["user_id"]},C09U89GGZLL"
-                    },
+        if userInChannel(client, body["user_id"], "C09U89GGZLL"):
+            res = client.conversations_open(users="U089924LMK8")
+            channelId = res["channel"]["id"]
+            respond("Sending request!")
+            client.chat_postMessage(
+                channel = channelId,
+                text = f"<@{body["user_id"]}> would like to join <#C09U89GGZLL>",
+                blocks = [{
+                    "type": "section",
+                    "text":{
+                        "type": "mrkdwn",
+                        "text": f"<@{body["user_id"]}> would like to join <#C09U89GGZLL>\n>*Reason:* {reason}",
+                    }
+                },
                     {
-                        "type": "button",
-                        "text": {"type": "plain_text","text": "ignore"},
-                        "action_id": "ignoreInvite",
-                    }]
-                }
-            ]
-        )
+                        "type": "actions",
+                        "block_id": "joinTπ",
+                        "elements": [{
+                            "type": "button",
+                            "text": {"type": "plain_text", "text": "Let them in"},
+                            "style": "primary",
+                            "action_id": "allow",
+                            "value": f"{body["user_id"]},C09U89GGZLL"
+                        },
+                        {
+                            "type": "button",
+                            "text": {"type": "plain_text","text": "ignore"},
+                            "action_id": "ignoreInvite",
+                        }]
+                    }
+                ]
+            )
+        else:
+            respond("you're already in <#C09U89GGZLL> (astra's tπ channel) silly :bleh:")
     except Exception as err:
         respond(f"Failed:\n{err}")
 
