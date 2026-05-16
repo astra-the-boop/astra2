@@ -107,10 +107,16 @@ def expireReminder():
 @app.action("pokeAstra")
 def pokeAstra(ack, body, client):
     ack()
-    client.chat_postMessage(
-        channel=reminderChannel,
-        text=f"<@{body["user"]["id"]}> poked <@U089924LMK8>!! TAKE YOUR DRUGS!"
-    )
+    if body["user"]["id"] == "U081C6XT885":
+        client.chat_postMessage(
+            channel=reminderChannel,
+            text=f"<@{body["user"]["id"]}> kissed <@U089924LMK8> :yay-lesbian::yay-lesbian::yay-lesbian:!! TAKE YOUR DRUGS!"
+        )
+    else:
+        client.chat_postMessage(
+            channel=reminderChannel,
+            text=f"<@{body["user"]["id"]}> poked <@U089924LMK8>!! TAKE YOUR DRUGS!"
+        )
 
 
 @app.action("reminderCheck")
