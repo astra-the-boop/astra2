@@ -114,23 +114,25 @@ def pokeAstra(ack, body, client):
 
 
 @app.action("reminderCheck")
-def tookDrugs(ack, respond, client):
+def tookDrugs(ack, respond, client, body):
     global takenDrugs, reminderTs
+    if body["user"]["id"] == "U089924LMK8":
+        ack()
+        takenDrugs = True
 
-    ack()
-    takenDrugs = True
-
-    client.chat_update(
-        channel=reminderChannel,
-        ts=reminderTs,
-        text="astra took her drugs!",
-        blocks=[]
-    )
-    client.chat_postMessage(
-        channel=reminderChannel,
-        text="astra took her drugs! yall can stop now",
-    )
-    respond(text="yum", replace_original=True)
+        client.chat_update(
+            channel=reminderChannel,
+            ts=reminderTs,
+            text="astra took her drugs!",
+            blocks=[]
+        )
+        client.chat_postMessage(
+            channel=reminderChannel,
+            text="astra took her drugs! yall can stop now",
+        )
+        respond(text="yum", replace_original=True)
+    else:
+        respond("dfsnklknalfslkn grrr get outa here")
 
 @app.command("/drug-taken")
 def manualDrugTaken(ack, body, client, respond):
@@ -332,7 +334,7 @@ def spotify(message, client):
 @app.action("approveMedia")
 def approveMedia(ack, body, client, respond):
     ack()
-    if body["user_id"] == "U089924LMK8":
+    if body["user"]["id"] == "U089924LMK8":
         value = body["actions"][0]["value"]
         client.chat_postMessage(
             channel = mediaTargetChannel,
@@ -436,42 +438,45 @@ def joinTπ(ack, body, client, respond):
         respond(f"Failed:\n{err}")
 
 @app.action("allow")
-def allow(ack, body, client):
+def allow(ack, body, client, respond):
     ack()
-    id, channel = body["actions"][0]["value"].split(",")
+    if body["user"]["id"] == "U089924LMK8":
+        id, channel = body["actions"][0]["value"].split(",")
 
-    client.conversations_invite(
-        channel = channel,
-        users=id
-    )
+        client.conversations_invite(
+            channel = channel,
+            users=id
+        )
 
-    client.chat_update(
-        channel = body["container"]["channel_id"],
-        ts = body["container"]["message_ts"],
-        text = f"i added <@{id}> to <#{channel}>!",
-        blocks=[{
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": f"i added <@{id}> to <#{channel}>!"
-            }
-        },
-            {
-                "type": "actions",
-                "block_id": "undoInvite",
-                "elements": [{
-                    "type": "button",
-                    "style": "danger",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "Undo invite"
-                        },
-                    "action_id": "undoInvite",
-                    "value": f"{id},{channel}"
+        client.chat_update(
+            channel = body["container"]["channel_id"],
+            ts = body["container"]["message_ts"],
+            text = f"i added <@{id}> to <#{channel}>!",
+            blocks=[{
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"i added <@{id}> to <#{channel}>!"
+                }
+            },
+                {
+                    "type": "actions",
+                    "block_id": "undoInvite",
+                    "elements": [{
+                        "type": "button",
+                        "style": "danger",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Undo invite"
+                            },
+                        "action_id": "undoInvite",
+                        "value": f"{id},{channel}"
+                    }]
+
                 }]
-
-            }]
-    )
+        )
+    else:
+        respond("you sneaky sneaky sneek")
 
 @app.action("ignoreInvite")
 def ignoreInvite(ack, body, client):
@@ -483,19 +488,22 @@ def ignoreInvite(ack, body, client):
     ack()
 
 @app.action("undoInvite")
-def undoInvite(ack, body, client):
+def undoInvite(ack, body, client, respond):
     ack()
-    id, channel = body["actions"][0]["value"].split(",")
-    client.conversations_kick(
-        channel=channel,
-        user=id
-    )
+    if body["user"]["id"] == "U089924LMK8":
+        id, channel = body["actions"][0]["value"].split(",")
+        client.conversations_kick(
+            channel=channel,
+            user=id
+        )
 
-    client.chat_update(
-        channel=body["container"]["channel_id"],
-        ts = body["container"]["message_ts"],
-        text = f"Kicked <@{id}> from <#{channel}>!",
-    )
+        client.chat_update(
+            channel=body["container"]["channel_id"],
+            ts = body["container"]["message_ts"],
+            text = f"Kicked <@{id}> from <#{channel}>!",
+        )
+    else:
+        respond("sneaky freaky snake")
 
 if __name__ == "__main__":
     app.start(3000)
