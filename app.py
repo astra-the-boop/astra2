@@ -330,18 +330,21 @@ def spotify(message, client):
         )
 
 @app.action("approveMedia")
-def approveYoutube(ack, body, client, respond):
+def approveMedia(ack, body, client, respond):
     ack()
-    value = body["actions"][0]["value"]
-    client.chat_postMessage(
-        channel = mediaTargetChannel,
-        text = f"<!subteam^S0AR5M3UVV1>\n{value.replace("<!subteam^", ":pingfest: subteam^ ")}",
-        unfurl_links = True,
-        unfurl_media = True,)
-    respond(replace_original=True, delete_original=True)
+    if body["user_id"] == "U089924LMK8":
+        value = body["actions"][0]["value"]
+        client.chat_postMessage(
+            channel = mediaTargetChannel,
+            text = f"<!subteam^S0AR5M3UVV1>\n{value.replace("<!subteam^", ":pingfest: subteam^ ")}",
+            unfurl_links = True,
+            unfurl_media = True,)
+        respond(replace_original=True, delete_original=True)
+    else:
+        respond("what are you doing you sneak")
 
 @app.action("rejectMedia")
-def rejectYoutube(ack, respond):
+def rejectMedia(ack, respond):
     ack()
     respond(replace_original=True, delete_original=True)
 
